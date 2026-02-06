@@ -20,7 +20,7 @@
         
         .container {
             background: white;
-            max-width: 900px;
+            maxpx;
             margin: 0 auto;
             min-height: 100vh;
         }
@@ -214,6 +214,7 @@
             cursor: pointer;
             border: 1px solid transparent;
             min-height: 24px;
+            position: relative;
         }
         
         .checklist-item:active {
@@ -246,6 +247,79 @@
             cursor: pointer;
             flex: 1;
             line-height: 1.2;
+        }
+        
+        .delete-btn {
+            background: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            padding: 2px 5px;
+            font-size: 8px;
+            cursor: pointer;
+            margin-left: 4px;
+            flex-shrink: 0;
+            opacity: 0.7;
+        }
+        
+        .delete-btn:active {
+            opacity: 1;
+            transform: scale(0.95);
+        }
+        
+        .add-item-section {
+            background: #e9ecef;
+            padding: 8px 10px;
+            margin-bottom: 8px;
+            border-radius: 6px;
+        }
+        
+        .add-item-title {
+            font-size: 10px;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 6px;
+            text-align: center;
+        }
+        
+        .add-item-form {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        
+        .add-item-input {
+            padding: 6px 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 10px;
+            font-family: inherit;
+        }
+        
+        .add-item-select {
+            padding: 6px 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 10px;
+            background: white;
+            font-family: inherit;
+        }
+        
+        .add-item-btn {
+            padding: 8px;
+            background: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        .add-item-btn:active {
+            background: #218838;
+            transform: scale(0.98);
         }
         
         .overall-progress {
@@ -326,9 +400,14 @@
             -webkit-touch-callout: none;
         }
         
-        input[type="checkbox"], label {
+        input[type="checkbox"], label, input[type="text"], select {
             -webkit-user-select: none;
             user-select: none;
+        }
+        
+        input[type="text"] {
+            -webkit-user-select: text;
+            user-select: text;
         }
     </style>
 </head>
@@ -351,6 +430,20 @@
             </div>
         </div>
         
+        <!-- Add New Item Section -->
+        <div class="add-item-section">
+            <div class="add-item-title">➕ Add New Item</div>
+            <div class="add-item-form">
+                <input type="text" id="newItemName" class="add-item-input" placeholder="Enter item name...">
+                <select id="sectionSelect" class="add-item-select">
+                    <option value="1">📸 Photoshoot Day</option>
+                    <option value="2">🍎 Food</option>
+                    <option value="3">🎒 Miscellaneous</option>
+                </select>
+                <button class="add-item-btn" onclick="addNewItem()">Add Item</button>
+            </div>
+        </div>
+        
         <!-- Section 1: Photoshoot Day -->
         <div class="section" id="section1">
             <div class="section-header">
@@ -360,37 +453,37 @@
             <div class="section-progress-bar">
                 <div class="section-progress-fill" id="progressBar1">0%</div>
             </div>
-            <ul class="checklist">
+            <ul class="checklist" id="checklist1">
                 <li class="checklist-item">
-                    <input type="checkbox" id="s1-item1">
+                    <input type="checkbox" id="s1-item1" data-item="s1-item1">
                     <label for="s1-item1">Selfie stick</label>
                 </li>
                 <li class="checklist-item">
-                    <input type="checkbox" id="s1-item2">
+                    <input type="checkbox" id="s1-item2" data-item="s1-item2">
                     <label for="s1-item2">Balloon</label>
                 </li>
                 <li class="checklist-item">
-                    <input type="checkbox" id="s1-item3">
+                    <input type="checkbox" id="s1-item3" data-item="s1-item3">
                     <label for="s1-item3">Shoe</label>
                 </li>
                 <li class="checklist-item">
-                    <input type="checkbox" id="s1-item4">
+                    <input type="checkbox" id="s1-item4" data-item="s1-item4">
                     <label for="s1-item4">Flower</label>
                 </li>
                 <li class="checklist-item">
-                    <input type="checkbox" id="s1-item5">
+                    <input type="checkbox" id="s1-item5" data-item="s1-item5">
                     <label for="s1-item5">Mirror props</label>
                 </li>
                 <li class="checklist-item">
-                    <input type="checkbox" id="s1-item6">
+                    <input type="checkbox" id="s1-item6" data-item="s1-item6">
                     <label for="s1-item6">Blanket</label>
                 </li>
                 <li class="checklist-item">
-                    <input type="checkbox" id="s1-item7">
+                    <input type="checkbox" id="s1-item7" data-item="s1-item7">
                     <label for="s1-item7">Ultrasound images</label>
                 </li>
                 <li class="checklist-item">
-                    <input type="checkbox" id="s1-item8">
+                    <input type="checkbox" id="s1-item8" data-item="s1-item8">
                     <label for="s1-item8">Chapal sandle</label>
                 </li>
             </ul>
@@ -405,85 +498,85 @@
             <div class="section-progress-bar">
                 <div class="section-progress-fill" id="progressBar2">0%</div>
             </div>
-            <ul class="checklist">
+            <ul class="checklist" id="checklist2">
                 <li class="checklist-item">
-                    <input type="checkbox" id="s2-item1">
+                    <input type="checkbox" id="s2-item1" data-item="s2-item1">
                     <label for="s2-item1">Guava</label>
                 </li>
                 <li class="checklist-item">
-                    <input type="checkbox" id="s2-item2">
+                    <input type="checkbox" id="s2-item2" data-item="s2-item2">
                     <label for="s2-item2">Orange</label>
                 </li>
                 <li class="checklist-item">
-                    <input type="checkbox" id="s2-item3">
+                    <input type="checkbox" id="s2-item3" data-item="s2-item3">
                     <label for="s2-item3">Kiwi</label>
                 </li>
                 <li class="checklist-item">
-                    <input type="checkbox" id="s2-item4">
+                    <input type="checkbox" id="s2-item4" data-item="s2-item4">
                     <label for="s2-item4">Yogurt</label>
                 </li>
                 <li class="checklist-item">
-                    <input type="checkbox" id="s2-item5">
+                    <input type="checkbox" id="s2-item5" data-item="s2-item5">
                     <label for="s2-item5">Milk</label>
                 </li>
                 <li class="checklist-item">
-                    <input type="checkbox" id="s2-item6">
+                    <input type="checkbox" id="s2-item6" data-item="s2-item6">
                     <label for="s2-item6">Coffee</label>
                 </li>
                 <li class="checklist-item">
-                    <input type="checkbox" id="s2-item7">
+                    <input type="checkbox" id="s2-item7" data-item="s2-item7">
                     <label for="s2-item7">Tea</label>
                 </li>
                 <li class="checklist-item">
-                    <input type="checkbox" id="s2-item8">
+                    <input type="checkbox" id="s2-item8" data-item="s2-item8">
                     <label for="s2-item8">Sugar</label>
                 </li>
                 <li class="checklist-item">
-                    <input type="checkbox" id="s2-item9">
+                    <input type="checkbox" id="s2-item9" data-item="s2-item9">
                     <label for="s2-item9">Ginger</label>
                 </li>
                 <li class="checklist-item">
-                    <input type="checkbox" id="s2-item10">
+                    <input type="checkbox" id="s2-item10" data-item="s2-item10">
                     <label for="s2-item10">Butter</label>
                 </li>
                 <li class="checklist-item">
-                    <input type="checkbox" id="s2-item11">
+                    <input type="checkbox" id="s2-item11" data-item="s2-item11">
                     <label for="s2-item11">Bread</label>
                 </li>
                 <li class="checklist-item">
-                    <input type="checkbox" id="s2-item12">
+                    <input type="checkbox" id="s2-item12" data-item="s2-item12">
                     <label for="s2-item12">Boiled chana</label>
                 </li>
                 <li class="checklist-item">
-                    <input type="checkbox" id="s2-item13">
+                    <input type="checkbox" id="s2-item13" data-item="s2-item13">
                     <label for="s2-item13">Protein bar</label>
                 </li>
                 <li class="checklist-item">
-                    <input type="checkbox" id="s2-item14">
+                    <input type="checkbox" id="s2-item14" data-item="s2-item14">
                     <label for="s2-item14">Dry fruits</label>
                 </li>
                 <li class="checklist-item">
-                    <input type="checkbox" id="s2-item15">
+                    <input type="checkbox" id="s2-item15" data-item="s2-item15">
                     <label for="s2-item15">Egg</label>
                 </li>
                 <li class="checklist-item">
-                    <input type="checkbox" id="s2-item16">
+                    <input type="checkbox" id="s2-item16" data-item="s2-item16">
                     <label for="s2-item16">Pan</label>
                 </li>
                 <li class="checklist-item">
-                    <input type="checkbox" id="s2-item17">
+                    <input type="checkbox" id="s2-item17" data-item="s2-item17">
                     <label for="s2-item17">Masala</label>
                 </li>
                 <li class="checklist-item">
-                    <input type="checkbox" id="s2-item18">
+                    <input type="checkbox" id="s2-item18" data-item="s2-item18">
                     <label for="s2-item18">Soup</label>
                 </li>
                 <li class="checklist-item">
-                    <input type="checkbox" id="s2-item19">
+                    <input type="checkbox" id="s2-item19" data-item="s2-item19">
                     <label for="s2-item19">Cucumbers</label>
                 </li>
                 <li class="checklist-item">
-                    <input type="checkbox" id="s2-item20">
+                    <input type="checkbox" id="s2-item20" data-item="s2-item20">
                     <label for="s2-item20">Carrot</label>
                 </li>
             </ul>
@@ -498,65 +591,65 @@
             <div class="section-progress-bar">
                 <div class="section-progress-fill" id="progressBar3">0%</div>
             </div>
-            <ul class="checklist">
+            <ul class="checklist" id="checklist3">
                 <li class="checklist-item">
-                    <input type="checkbox" id="s3-item1">
+                    <input type="checkbox" id="s3-item1" data-item="s3-item1">
                     <label for="s3-item1">Cloths</label>
                 </li>
                 <li class="checklist-item">
-                    <input type="checkbox" id="s3-item2">
+                    <input type="checkbox" id="s3-item2" data-item="s3-item2">
                     <label for="s3-item2">Toothbrush</label>
                 </li>
                 <li class="checklist-item">
-                    <input type="checkbox" id="s3-item3">
+                    <input type="checkbox" id="s3-item3" data-item="s3-item3">
                     <label for="s3-item3">Makeup kit</label>
                 </li>
                 <li class="checklist-item">
-                    <input type="checkbox" id="s3-item4">
+                    <input type="checkbox" id="s3-item4" data-item="s3-item4">
                     <label for="s3-item4">Prenatal iron</label>
                 </li>
                 <li class="checklist-item">
-                    <input type="checkbox" id="s3-item5">
+                    <input type="checkbox" id="s3-item5" data-item="s3-item5">
                     <label for="s3-item5">Soda</label>
                 </li>
                 <li class="checklist-item">
-                    <input type="checkbox" id="s3-item6">
+                    <input type="checkbox" id="s3-item6" data-item="s3-item6">
                     <label for="s3-item6">Coke</label>
                 </li>
                 <li class="checklist-item">
-                    <input type="checkbox" id="s3-item7">
+                    <input type="checkbox" id="s3-item7" data-item="s3-item7">
                     <label for="s3-item7">Paper plates</label>
                 </li>
                 <li class="checklist-item">
-                    <input type="checkbox" id="s3-item8">
+                    <input type="checkbox" id="s3-item8" data-item="s3-item8">
                     <label for="s3-item8">Onion</label>
                 </li>
                 <li class="checklist-item">
-                    <input type="checkbox" id="s3-item9">
+                    <input type="checkbox" id="s3-item9" data-item="s3-item9">
                     <label for="s3-item9">Lemon</label>
                 </li>
                 <li class="checklist-item">
-                    <input type="checkbox" id="s3-item10">
+                    <input type="checkbox" id="s3-item10" data-item="s3-item10">
                     <label for="s3-item10">Tomato</label>
                 </li>
                 <li class="checklist-item">
-                    <input type="checkbox" id="s3-item11">
+                    <input type="checkbox" id="s3-item11" data-item="s3-item11">
                     <label for="s3-item11">Cheese slices</label>
                 </li>
                 <li class="checklist-item">
-                    <input type="checkbox" id="s3-item12">
+                    <input type="checkbox" id="s3-item12" data-item="s3-item12">
                     <label for="s3-item12">Snacks</label>
                 </li>
                 <li class="checklist-item">
-                    <input type="checkbox" id="s3-item13">
+                    <input type="checkbox" id="s3-item13" data-item="s3-item13">
                     <label for="s3-item13">Socks</label>
                 </li>
                 <li class="checklist-item">
-                    <input type="checkbox" id="s3-item14">
+                    <input type="checkbox" id="s3-item14" data-item="s3-item14">
                     <label for="s3-item14">Rumal</label>
                 </li>
                 <li class="checklist-item">
-                    <input type="checkbox" id="s3-item15">
+                    <input type="checkbox" id="s3-item15" data-item="s3-item15">
                     <label for="s3-item15">Jackets</label>
                 </li>
             </ul>
@@ -575,6 +668,8 @@
     </div>
     
     <script>
+        let itemCounters = {1: 8, 2: 20, 3: 15}; // Track item counts per section
+        
         // Update date and time
         function updateDateTime() {
             const now = new Date();
@@ -685,6 +780,125 @@
             document.getElementById('weatherContent').innerHTML = weatherHTML;
         }
         
+        // Add new item
+        function addNewItem() {
+            const itemName = document.getElementById('newItemName').value.trim();
+            const sectionNum = document.getElementById('sectionSelect').value;
+            
+            if (!itemName) {
+                alert('Please enter an item name!');
+                return;
+            }
+            
+            // Increment counter for this section
+            itemCounters[sectionNum]++;
+            const itemId = `s${sectionNum}-item${itemCounters[sectionNum]}`;
+            
+            // Create new list item
+            const li = document.createElement('li');
+            li.className = 'checklist-item';
+            li.innerHTML = `
+                <input type="checkbox" id="${itemId}" data-item="${itemId}">
+                <label for="${itemId}">${itemName}</label>
+                <button class="delete-btn" onclick="deleteItem('${itemId}')">×</button>
+            `;
+            
+            // Add to checklist
+            const checklist = document.getElementById(`checklist${sectionNum}`);
+            checklist.appendChild(li);
+            
+            // Add event listener to new checkbox
+            const checkbox = li.querySelector('input[type="checkbox"]');
+            checkbox.addEventListener('change', function() {
+                this.parentElement.classList.toggle('checked', this.checked);
+                saveCheckbox(this);
+                updateAllProgress();
+            });
+            
+            // Save custom items list
+            saveCustomItems();
+            
+            // Clear input
+            document.getElementById('newItemName').value = '';
+            
+            // Update progress
+            updateAllProgress();
+        }
+        
+        // Delete item
+        function deleteItem(itemId) {
+            if (confirm('Delete this item?')) {
+                const checkbox = document.querySelector(`#${itemId}`);
+                if (checkbox) {
+                    checkbox.parentElement.remove();
+                    localStorage.removeItem(itemId);
+                    saveCustomItems();
+                    updateAllProgress();
+                }
+            }
+        }
+        
+        // Save custom items to localStorage
+        function saveCustomItems() {
+            const customItems = [];
+            for (let i = 1; i <= 3; i++) {
+                const checklist = document.getElementById(`checklist${i}`);
+                const items = checklist.querySelectorAll('.checklist-item');
+                items.forEach(item => {
+                    const checkbox = item.querySelector('input[type="checkbox"]');
+                    const label = item.querySelector('label');
+                    const hasDeleteBtn = item.querySelector('.delete-btn');
+                    if (hasDeleteBtn) {
+                        customItems.push({
+                            id: checkbox.id,
+                            name: label.textContent,
+                            section: i
+                        });
+                    }
+                });
+            }
+            localStorage.setItem('customItems', JSON.stringify(customItems));
+        }
+        
+        // Load custom items from localStorage
+        function loadCustomItems() {
+            const saved = localStorage.getItem('customItems');
+            if (saved) {
+                const customItems = JSON.parse(saved);
+                customItems.forEach(item => {
+                    const li = document.createElement('li');
+                    li.className = 'checklist-item';
+                    li.innerHTML = `
+                        <input type="checkbox" id="${item.id}" data-item="${item.id}">
+                        <label for="${item.id}">${item.name}</label>
+                        <button class="delete-btn" onclick="deleteItem('${item.id}')">×</button>
+                    `;
+                    
+                    const checklist = document.getElementById(`checklist${item.section}`);
+                    checklist.appendChild(li);
+                    
+                    const checkbox = li.querySelector('input[type="checkbox"]');
+                    const savedState = localStorage.getItem(item.id);
+                    if (savedState === 'true') {
+                        checkbox.checked = true;
+                        li.classList.add('checked');
+                    }
+                    
+                    checkbox.addEventListener('change', function() {
+                        this.parentElement.classList.toggle('checked', this.checked);
+                        saveCheckbox(this);
+                        updateAllProgress();
+                    });
+                    
+                    // Update counter
+                    const itemNum = parseInt(item.id.split('-item')[1]);
+                    if (itemNum > itemCounters[item.section]) {
+                        itemCounters[item.section] = itemNum;
+                    }
+                });
+            }
+        }
+        
         // Load saved state from localStorage
         function loadChecklist() {
             const checkboxes = document.querySelectorAll('input[type="checkbox"]');
@@ -695,6 +909,7 @@
                     checkbox.parentElement.classList.add('checked');
                 }
             });
+            loadCustomItems();
             updateAllProgress();
         }
         
@@ -765,11 +980,11 @@
         
         // Reset entire checklist
         function resetChecklist() {
-            if (confirm('Are you sure you want to reset the entire checklist? This will uncheck all items.')) {
-                localStorage.clear();
+            if (confirm('Are you sure you want to reset the entire checklist? This will uncheck all items but keep custom items.')) {
                 document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
                     checkbox.checked = false;
                     checkbox.parentElement.classList.remove('checked');
+                    localStorage.removeItem(checkbox.id);
                 });
                 updateAllProgress();
             }
