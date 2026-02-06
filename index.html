@@ -271,6 +271,21 @@
             cursor: default;
         }
         
+        .checklist-item.hidden {
+            display: none;
+        }
+        
+        .checklist-item.highlight {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            animation: pulse 0.5s ease-in-out;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+        
         .drag-handle {
             cursor: move;
             color: #6c757d;
@@ -405,6 +420,85 @@
         .add-item-btn:active {
             background: #218838;
             transform: scale(0.98);
+        }
+        
+        /* Search Section Styles */
+        .search-section {
+            background: #f0f8ff;
+            padding: 8px 10px;
+            margin-bottom: 8px;
+            border-radius: 6px;
+            border: 1px solid #667eea;
+        }
+        
+        .search-title {
+            font-size: 10px;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 6px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+        }
+        
+        .search-container {
+            position: relative;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 8px 32px 8px 10px;
+            border: 2px solid #667eea;
+            border-radius: 5px;
+            font-size: 10px;
+            font-family: inherit;
+            -webkit-user-select: text;
+            user-select: text;
+        }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: #764ba2;
+            box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.2);
+        }
+        
+        .clear-search {
+            position: absolute;
+            right: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            padding: 3px 6px;
+            font-size: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            opacity: 0.8;
+        }
+        
+        .clear-search:active {
+            opacity: 1;
+            transform: translateY(-50%) scale(0.95);
+        }
+        
+        .search-results {
+            margin-top: 6px;
+            font-size: 8px;
+            color: #6c757d;
+            text-align: center;
+            font-weight: 600;
+        }
+        
+        .search-results.active {
+            color: #28a745;
+        }
+        
+        .search-results.no-results {
+            color: #dc3545;
         }
         
         .overall-progress {
@@ -558,6 +652,24 @@
             </div>
         </div>
         
+        <!-- Search Section -->
+        <div class="search-section">
+            <div class="search-title">
+                🔍 Search Items
+            </div>
+            <div class="search-container">
+                <input 
+                    type="text" 
+                    id="searchInput" 
+                    class="search-input" 
+                    placeholder="Search across all sections..."
+                    oninput="searchItems()"
+                >
+                <button class="clear-search" onclick="clearSearch()" id="clearSearchBtn" style="display: none;">✕</button>
+            </div>
+            <div class="search-results" id="searchResults"></div>
+        </div>
+        
         <!-- Section 1: Photoshoot Day -->
         <div class="section" id="section1" data-section="1">
             <div class="section-header">
@@ -623,6 +735,59 @@
             2: ['Guava', 'Orange', 'Kiwi', 'Yogurt', 'Milk', 'Coffee', 'Tea', 'Sugar', 'Ginger', 'Butter', 'Bread', 'Boiled chana', 'Protein bar', 'Dry fruits', 'Egg', 'Pan', 'Masala', 'Soup', 'Cucumbers', 'Carrot'],
             3: ['Cloths', 'Toothbrush', 'Makeup kit', 'Prenatal iron', 'Soda', 'Coke', 'Paper plates', 'Onion', 'Lemon', 'Tomato', 'Cheese slices', 'Snacks', 'Socks', 'Rumal', 'Jackets']
         };
+        
+        // Search functionality
+        function searchItems() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
+            const clearBtn = document.getElementById('clearSearchBtn');
+            const searchResults = document.getElementById('searchResults');
+            
+            // Show/hide clear button
+            clearBtn.style.display = searchTerm ? 'block' : 'none';
+            
+            if (!searchTerm) {
+                // Show all items
+                document.querySelectorAll('.checklist-item').forEach(item => {
+                    item.classList.remove('hidden', 'highlight');
+                });
+                searchResults.textContent = '';
+                searchResults.className = 'search-results';
+                return;
+            }
+            
+            let matchCount = 0;
+            let totalItems = 0;
+            
+            // Search through all items
+            document.querySelectorAll('.checklist-item').forEach(item => {
+                totalItems++;
+                const label = item.querySelector('label');
+                const itemText = label.textContent.toLowerCase();
+                
+                if (itemText.includes(searchTerm)) {
+                    item.classList.remove('hidden');
+                    item.classList.add('highlight');
+                    matchCount++;
+                } else {
+                    item.classList.add('hidden');
+                    item.classList.remove('highlight');
+                }
+            });
+            
+            // Update search results
+            if (matchCount > 0) {
+                searchResults.textContent = `Found ${matchCount} item${matchCount !== 1 ? 's' : ''} matching "${searchTerm}"`;
+                searchResults.className = 'search-results active';
+            } else {
+                searchResults.textContent = `No items found matching "${searchTerm}"`;
+                searchResults.className = 'search-results no-results';
+            }
+        }
+        
+        function clearSearch() {
+            document.getElementById('searchInput').value = '';
+            searchItems();
+        }
         
         // Sort items alphabetically within a section
         function sortSectionItems(sectionNum) {
@@ -775,6 +940,12 @@
                 // Save all data
                 saveAllItemData();
                 updateAllProgress();
+                
+                // Re-apply search if active
+                const searchTerm = document.getElementById('searchInput').value;
+                if (searchTerm) {
+                    searchItems();
+                }
             }
             
             return false;
@@ -981,6 +1152,12 @@
             sortSectionItems(sectionNum);
             
             saveAllItemData();
+            
+            // Re-apply search if active
+            const searchTerm = document.getElementById('searchInput').value;
+            if (searchTerm) {
+                searchItems();
+            }
         }
         
         // Cancel edit
@@ -1066,6 +1243,12 @@
             
             // Update progress
             updateAllProgress();
+            
+            // Re-apply search if active
+            const searchTerm = document.getElementById('searchInput').value;
+            if (searchTerm) {
+                searchItems();
+            }
         }
         
         // Delete item
@@ -1079,6 +1262,12 @@
                     localStorage.setItem('itemNames', JSON.stringify(itemNames));
                     saveAllItemData();
                     updateAllProgress();
+                    
+                    // Re-apply search if active
+                    const searchTerm = document.getElementById('searchInput').value;
+                    if (searchTerm) {
+                        searchItems();
+                    }
                 }
             }
         }
