@@ -195,6 +195,25 @@
             color: white;
             font-weight: bold;
             font-size: 7px;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+        
+        .section-progress-bar::after {
+            content: attr(data-progress);
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            color: #333;
+            font-weight: bold;
+            font-size: 7px;
+            z-index: 1;
+        }
+        
+        .section-progress-bar.has-progress::after {
+            color: white;
         }
         
         .checklist {
@@ -373,12 +392,25 @@
             height: 100%;
             background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
             transition: width 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+        
+        .overall-progress::after {
+            content: attr(data-progress);
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            color: #333;
             font-weight: bold;
             font-size: 9px;
+            z-index: 1;
+        }
+        
+        .overall-progress.has-progress::after {
+            color: white;
         }
         
         .button-group {
@@ -488,8 +520,8 @@
                 <h2>📸 Photoshoot Day</h2>
                 <span class="section-progress" id="progress1">0/8</span>
             </div>
-            <div class="section-progress-bar">
-                <div class="section-progress-fill" id="progressBar1">0%</div>
+            <div class="section-progress-bar" id="progressBarContainer1" data-progress="0%">
+                <div class="section-progress-fill" id="progressBar1"></div>
             </div>
             <ul class="checklist" id="checklist1">
                 <li class="checklist-item">
@@ -565,8 +597,8 @@
                 <h2>🍎 Food</h2>
                 <span class="section-progress" id="progress2">0/20</span>
             </div>
-            <div class="section-progress-bar">
-                <div class="section-progress-fill" id="progressBar2">0%</div>
+            <div class="section-progress-bar" id="progressBarContainer2" data-progress="0%">
+                <div class="section-progress-fill" id="progressBar2"></div>
             </div>
             <ul class="checklist" id="checklist2">
                 <li class="checklist-item">
@@ -738,8 +770,8 @@
                 <h2>🎒 Miscellaneous</h2>
                 <span class="section-progress" id="progress3">0/15</span>
             </div>
-            <div class="section-progress-bar">
-                <div class="section-progress-fill" id="progressBar3">0%</div>
+            <div class="section-progress-bar" id="progressBarContainer3" data-progress="0%">
+                <div class="section-progress-fill" id="progressBar3"></div>
             </div>
             <ul class="checklist" id="checklist3">
                 <li class="checklist-item">
@@ -866,8 +898,8 @@
         </div>
         
         <!-- Overall Progress -->
-        <div class="overall-progress">
-            <div class="progress-fill" id="overallProgressFill">0%</div>
+        <div class="overall-progress" id="overallProgressContainer" data-progress="Overall: 0/43 (0%)">
+            <div class="progress-fill" id="overallProgressFill"></div>
         </div>
         
         <!-- Buttons -->
@@ -1288,8 +1320,16 @@
             progressText.textContent = `${checked}/${total}`;
             
             const progressBar = document.getElementById(`progressBar${sectionNum}`);
+            const progressBarContainer = document.getElementById(`progressBarContainer${sectionNum}`);
             progressBar.style.width = percentage + '%';
-            progressBar.textContent = percentage + '%';
+            progressBarContainer.setAttribute('data-progress', percentage + '%');
+            
+            // Add class if progress > 0 to change text color
+            if (percentage > 0) {
+                progressBarContainer.classList.add('has-progress');
+            } else {
+                progressBarContainer.classList.remove('has-progress');
+            }
         }
         
         // Update overall progress bar
@@ -1300,8 +1340,17 @@
             const percentage = total > 0 ? Math.round((checked / total) * 100) : 0;
             
             const progressFill = document.getElementById('overallProgressFill');
+            const progressContainer = document.getElementById('overallProgressContainer');
             progressFill.style.width = percentage + '%';
-            progressFill.textContent = `Overall: ${checked}/${total} (${percentage}%)`;
+            const progressText = `Overall: ${checked}/${total} (${percentage}%)`;
+            progressContainer.setAttribute('data-progress', progressText);
+            
+            // Add class if progress > 0 to change text color
+            if (percentage > 0) {
+                progressContainer.classList.add('has-progress');
+            } else {
+                progressContainer.classList.remove('has-progress');
+            }
         }
         
         // Update all progress indicators
