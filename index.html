@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>My Checklist</title>
     <style>
         * {
@@ -12,43 +12,45 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            padding: 20px;
+            padding: 8px;
+            font-size: 14px;
         }
 
         .container {
             max-width: 900px;
             margin: 0 auto;
             background: white;
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            border-radius: 12px;
+            padding: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
         }
 
         h1 {
             text-align: center;
             color: #667eea;
-            margin-bottom: 10px;
-            font-size: 2.5em;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 4px;
+            font-size: 1.5em;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
         }
 
         .subtitle {
             text-align: center;
             color: #666;
-            margin-bottom: 30px;
-            font-size: 1.1em;
+            margin-bottom: 8px;
+            font-size: 0.75em;
         }
 
         /* Sync Status */
         .sync-status {
             text-align: center;
-            padding: 10px;
-            margin-bottom: 20px;
-            border-radius: 8px;
+            padding: 4px;
+            margin-bottom: 8px;
+            border-radius: 6px;
             font-weight: 500;
+            font-size: 0.7em;
             background: #e8f5e9;
             color: #2e7d32;
         }
@@ -66,10 +68,10 @@
         /* Date & Time Section */
         .info-section {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 25px;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            border-radius: 8px;
+            padding: 8px;
+            margin-bottom: 8px;
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
         }
 
         .datetime {
@@ -78,78 +80,78 @@
         }
 
         .datetime-large {
-            font-size: 1.8em;
+            font-size: 0.9em;
             font-weight: bold;
-            margin-bottom: 8px;
+            margin-bottom: 2px;
         }
 
         #currentTime {
-            font-size: 1.3em;
+            font-size: 0.75em;
             opacity: 0.95;
         }
 
         /* Drag Hint */
         .drag-hint {
             background: #fff9c4;
-            border-left: 4px solid #fbc02d;
-            padding: 12px 15px;
-            margin-bottom: 25px;
-            border-radius: 8px;
-            font-size: 0.95em;
+            border-left: 3px solid #fbc02d;
+            padding: 6px 8px;
+            margin-bottom: 8px;
+            border-radius: 4px;
+            font-size: 0.65em;
             color: #555;
         }
 
         /* Add Category Section */
         .add-category-section {
             background: #f0f4ff;
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 25px;
-            border: 2px dashed #667eea;
+            border-radius: 8px;
+            padding: 8px;
+            margin-bottom: 8px;
+            border: 1px dashed #667eea;
         }
 
         .add-category-title {
-            font-size: 1.3em;
+            font-size: 0.85em;
             font-weight: bold;
             color: #667eea;
-            margin-bottom: 15px;
+            margin-bottom: 6px;
         }
 
         .add-category-form {
             display: flex;
-            gap: 10px;
+            gap: 6px;
         }
 
         .add-category-input {
             flex: 1;
-            padding: 12px 15px;
-            border: 2px solid #667eea;
-            border-radius: 8px;
-            font-size: 1em;
+            padding: 6px 8px;
+            border: 1px solid #667eea;
+            border-radius: 6px;
+            font-size: 0.8em;
             outline: none;
             transition: all 0.3s;
         }
 
         .add-category-input:focus {
             border-color: #764ba2;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.1);
         }
 
         .add-category-btn {
-            padding: 12px 25px;
+            padding: 6px 12px;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             border: none;
-            border-radius: 8px;
-            font-size: 1em;
+            border-radius: 6px;
+            font-size: 0.75em;
             font-weight: bold;
             cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
+            transition: transform 0.2s;
+            white-space: nowrap;
         }
 
         .add-category-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+            transform: translateY(-1px);
         }
 
         .add-category-btn:active {
@@ -159,46 +161,46 @@
         /* Add Item Section */
         .add-item-section {
             background: #f0fff4;
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 25px;
-            border: 2px dashed #48bb78;
+            border-radius: 8px;
+            padding: 8px;
+            margin-bottom: 8px;
+            border: 1px dashed #48bb78;
         }
 
         .add-item-title {
-            font-size: 1.3em;
+            font-size: 0.85em;
             font-weight: bold;
             color: #48bb78;
-            margin-bottom: 15px;
+            margin-bottom: 6px;
         }
 
         .add-item-form {
             display: flex;
-            gap: 10px;
+            gap: 6px;
             flex-wrap: wrap;
         }
 
         .add-item-input {
             flex: 1;
-            min-width: 200px;
-            padding: 12px 15px;
-            border: 2px solid #48bb78;
-            border-radius: 8px;
-            font-size: 1em;
+            min-width: 120px;
+            padding: 6px 8px;
+            border: 1px solid #48bb78;
+            border-radius: 6px;
+            font-size: 0.8em;
             outline: none;
             transition: all 0.3s;
         }
 
         .add-item-input:focus {
             border-color: #38a169;
-            box-shadow: 0 0 0 3px rgba(72, 187, 120, 0.1);
+            box-shadow: 0 0 0 2px rgba(72, 187, 120, 0.1);
         }
 
         .add-item-select {
-            padding: 12px 15px;
-            border: 2px solid #48bb78;
-            border-radius: 8px;
-            font-size: 1em;
+            padding: 6px 8px;
+            border: 1px solid #48bb78;
+            border-radius: 6px;
+            font-size: 0.8em;
             outline: none;
             background: white;
             cursor: pointer;
@@ -207,24 +209,24 @@
 
         .add-item-select:focus {
             border-color: #38a169;
-            box-shadow: 0 0 0 3px rgba(72, 187, 120, 0.1);
+            box-shadow: 0 0 0 2px rgba(72, 187, 120, 0.1);
         }
 
         .add-item-btn {
-            padding: 12px 25px;
+            padding: 6px 12px;
             background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
             color: white;
             border: none;
-            border-radius: 8px;
-            font-size: 1em;
+            border-radius: 6px;
+            font-size: 0.75em;
             font-weight: bold;
             cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
+            transition: transform 0.2s;
+            white-space: nowrap;
         }
 
         .add-item-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(72, 187, 120, 0.4);
+            transform: translateY(-1px);
         }
 
         .add-item-btn:active {
@@ -234,17 +236,17 @@
         /* Search Section */
         .search-section {
             background: #fff5f5;
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 25px;
-            border: 2px dashed #fc8181;
+            border-radius: 8px;
+            padding: 8px;
+            margin-bottom: 8px;
+            border: 1px dashed #fc8181;
         }
 
         .search-title {
-            font-size: 1.3em;
+            font-size: 0.85em;
             font-weight: bold;
             color: #fc8181;
-            margin-bottom: 15px;
+            margin-bottom: 6px;
         }
 
         .search-container {
@@ -255,30 +257,30 @@
 
         .search-input {
             flex: 1;
-            padding: 12px 40px 12px 15px;
-            border: 2px solid #fc8181;
-            border-radius: 8px;
-            font-size: 1em;
+            padding: 6px 30px 6px 8px;
+            border: 1px solid #fc8181;
+            border-radius: 6px;
+            font-size: 0.8em;
             outline: none;
             transition: all 0.3s;
         }
 
         .search-input:focus {
             border-color: #f56565;
-            box-shadow: 0 0 0 3px rgba(252, 129, 129, 0.1);
+            box-shadow: 0 0 0 2px rgba(252, 129, 129, 0.1);
         }
 
         .clear-search {
             position: absolute;
-            right: 10px;
+            right: 6px;
             background: #fc8181;
             color: white;
             border: none;
             border-radius: 50%;
-            width: 28px;
-            height: 28px;
+            width: 20px;
+            height: 20px;
             cursor: pointer;
-            font-size: 1em;
+            font-size: 0.75em;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -291,10 +293,10 @@
         }
 
         .search-results {
-            margin-top: 10px;
-            padding: 10px;
-            border-radius: 6px;
-            font-size: 0.95em;
+            margin-top: 6px;
+            padding: 6px;
+            border-radius: 4px;
+            font-size: 0.7em;
             display: none;
         }
 
@@ -313,17 +315,17 @@
         /* Section Styles */
         .section {
             background: #f8f9fa;
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 25px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            padding: 8px;
+            margin-bottom: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
             transition: all 0.3s ease;
         }
 
         .section.drag-over {
             background: #e3f2fd;
-            border: 2px dashed #2196f3;
-            transform: scale(1.02);
+            border: 1px dashed #2196f3;
+            transform: scale(1.01);
         }
 
         .section.collapsed .checklist {
@@ -334,47 +336,47 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 15px;
+            margin-bottom: 6px;
             cursor: pointer;
         }
 
         .section-title-container {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 6px;
             flex: 1;
         }
 
         .section h2 {
             color: #333;
-            font-size: 1.8em;
+            font-size: 1em;
             margin: 0;
         }
 
         .section-title-input {
-            font-size: 1.8em;
+            font-size: 1em;
             font-weight: bold;
-            padding: 5px 10px;
-            border: 2px solid #667eea;
-            border-radius: 8px;
+            padding: 4px 6px;
+            border: 1px solid #667eea;
+            border-radius: 4px;
             outline: none;
             flex: 1;
         }
 
         .section-actions {
             display: flex;
-            gap: 5px;
+            gap: 4px;
         }
 
         .section-edit-btn,
         .section-delete-btn,
         .section-save-btn,
         .section-cancel-btn {
-            padding: 8px 12px;
+            padding: 4px 8px;
             border: none;
-            border-radius: 6px;
+            border-radius: 4px;
             cursor: pointer;
-            font-size: 1em;
+            font-size: 0.75em;
             font-weight: bold;
             transition: all 0.2s;
         }
@@ -386,7 +388,6 @@
 
         .section-edit-btn:hover {
             background: #ffed4e;
-            transform: scale(1.1);
         }
 
         .section-delete-btn {
@@ -396,7 +397,6 @@
 
         .section-delete-btn:hover {
             background: #ff5252;
-            transform: scale(1.1);
         }
 
         .section-save-btn {
@@ -406,7 +406,6 @@
 
         .section-save-btn:hover {
             background: #38a169;
-            transform: scale(1.1);
         }
 
         .section-cancel-btn {
@@ -416,34 +415,34 @@
 
         .section-cancel-btn:hover {
             background: #a0aec0;
-            transform: scale(1.1);
         }
 
         .section-progress {
             background: #667eea;
             color: white;
-            padding: 8px 15px;
-            border-radius: 20px;
+            padding: 4px 8px;
+            border-radius: 12px;
             font-weight: bold;
-            font-size: 1em;
+            font-size: 0.7em;
+            white-space: nowrap;
         }
 
         .section-progress-bar {
-            height: 8px;
+            height: 6px;
             background: #e0e0e0;
-            border-radius: 10px;
+            border-radius: 6px;
             overflow: hidden;
-            margin-bottom: 15px;
+            margin-bottom: 6px;
             position: relative;
         }
 
         .section-progress-bar::after {
             content: attr(data-progress);
             position: absolute;
-            right: 10px;
+            right: 6px;
             top: 50%;
             transform: translateY(-50%);
-            font-size: 0.75em;
+            font-size: 0.6em;
             color: #666;
             font-weight: bold;
             opacity: 0;
@@ -458,7 +457,7 @@
             height: 100%;
             background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
             transition: width 0.5s ease;
-            border-radius: 10px;
+            border-radius: 6px;
         }
 
         .checklist {
@@ -467,25 +466,25 @@
 
         .checklist-item {
             background: white;
-            padding: 15px;
-            margin-bottom: 10px;
-            border-radius: 10px;
+            padding: 6px 8px;
+            margin-bottom: 4px;
+            border-radius: 6px;
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 6px;
             transition: all 0.3s ease;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
             cursor: move;
         }
 
         .checklist-item:hover {
-            transform: translateX(5px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+            transform: translateX(3px);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.15);
         }
 
         .checklist-item.dragging {
             opacity: 0.5;
-            transform: rotate(2deg);
+            transform: rotate(1deg);
         }
 
         .checklist-item.hidden {
@@ -494,13 +493,13 @@
 
         .checklist-item.highlight {
             background: #fff9c4;
-            border: 2px solid #fbc02d;
+            border: 1px solid #fbc02d;
         }
 
         .drag-handle {
             color: #999;
             cursor: grab;
-            font-size: 1.2em;
+            font-size: 0.9em;
             user-select: none;
         }
 
@@ -509,18 +508,20 @@
         }
 
         .checklist-item input[type="checkbox"] {
-            width: 22px;
-            height: 22px;
+            width: 16px;
+            height: 16px;
             cursor: pointer;
             accent-color: #667eea;
+            flex-shrink: 0;
         }
 
         .checklist-item label {
             flex: 1;
             cursor: pointer;
-            font-size: 1.1em;
+            font-size: 0.8em;
             color: #333;
             transition: all 0.3s;
+            line-height: 1.2;
         }
 
         .checklist-item.checked label {
@@ -534,13 +535,13 @@
 
         /* Overall Progress */
         .overall-progress {
-            height: 40px;
+            height: 24px;
             background: #e0e0e0;
-            border-radius: 20px;
+            border-radius: 12px;
             overflow: hidden;
-            margin: 30px 0;
+            margin: 8px 0;
             position: relative;
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+            box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
         }
 
         .overall-progress::after {
@@ -550,42 +551,42 @@
             top: 50%;
             transform: translate(-50%, -50%);
             font-weight: bold;
-            font-size: 1.1em;
+            font-size: 0.7em;
             color: #333;
             z-index: 2;
-            text-shadow: 0 0 3px white;
+            text-shadow: 0 0 2px white;
         }
 
         .overall-progress.has-progress::after {
             color: white;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+            text-shadow: 0 1px 1px rgba(0,0,0,0.3);
         }
 
         .progress-fill {
             height: 100%;
             background: linear-gradient(90deg, #48bb78 0%, #38a169 100%);
             transition: width 0.5s ease;
-            border-radius: 20px;
+            border-radius: 12px;
         }
 
         /* Buttons */
         .button-group {
             display: flex;
-            gap: 15px;
+            gap: 8px;
             justify-content: center;
-            margin-top: 30px;
+            margin-top: 8px;
         }
 
         .collapse-btn,
         .reset-btn {
-            padding: 15px 30px;
+            padding: 8px 16px;
             border: none;
-            border-radius: 10px;
-            font-size: 1.1em;
+            border-radius: 8px;
+            font-size: 0.8em;
             font-weight: bold;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
 
         .collapse-btn {
@@ -594,8 +595,8 @@
         }
 
         .collapse-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 12px rgba(102, 126, 234, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(102, 126, 234, 0.4);
         }
 
         .reset-btn {
@@ -604,8 +605,8 @@
         }
 
         .reset-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 12px rgba(255, 107, 107, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(255, 107, 107, 0.4);
         }
 
         .collapse-btn:active,
@@ -613,14 +614,26 @@
             transform: translateY(0);
         }
 
-        /* Responsive Design */
-        @media (max-width: 768px) {
+        /* iPhone 17 Pro Optimizations */
+        @media (max-width: 430px) {
+            body {
+                padding: 6px;
+                font-size: 13px;
+            }
+
             .container {
-                padding: 20px;
+                padding: 10px;
+                border-radius: 10px;
             }
 
             h1 {
-                font-size: 2em;
+                font-size: 1.3em;
+                margin-bottom: 3px;
+            }
+
+            .subtitle {
+                font-size: 0.7em;
+                margin-bottom: 6px;
             }
 
             .add-category-form,
@@ -634,12 +647,41 @@
             }
 
             .button-group {
-                flex-direction: column;
+                flex-direction: row;
+                gap: 6px;
             }
 
             .collapse-btn,
             .reset-btn {
-                width: 100%;
+                flex: 1;
+                padding: 6px 12px;
+                font-size: 0.75em;
+            }
+        }
+
+        /* Compact mode for very small screens */
+        @media (max-height: 700px) {
+            .info-section {
+                padding: 6px;
+                margin-bottom: 6px;
+            }
+
+            .datetime-large {
+                font-size: 0.8em;
+            }
+
+            #currentTime {
+                font-size: 0.7em;
+            }
+
+            .section {
+                padding: 6px;
+                margin-bottom: 6px;
+            }
+
+            .checklist-item {
+                padding: 4px 6px;
+                margin-bottom: 3px;
             }
         }
     </style>
@@ -669,7 +711,7 @@
     <div class="add-category-section">
         <div class="add-category-title">➕ Add New Category</div>
         <div class="add-category-form">
-            <input type="text" id="newCategoryName" class="add-category-input" placeholder="Enter category name (e.g., 🏖️ Beach Items)...">
+            <input type="text" id="newCategoryName" class="add-category-input" placeholder="Enter category name...">
             <button class="add-category-btn" onclick="addNewCategory()">Add Category</button>
         </div>
     </div>
@@ -688,9 +730,7 @@
     
     <!-- Search Section -->
     <div class="search-section">
-        <div class="search-title">
-            🔍 Search Items
-        </div>
+        <div class="search-title">🔍 Search Items</div>
         <div class="search-container">
             <input 
                 type="text" 
