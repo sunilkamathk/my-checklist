@@ -1,3 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Checklist</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        h1 {
+            text-align: center;
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+
+        /* Sync Status */
+        .sync-status {
+            text-align: center;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            font-weight: 500;
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .sync-status.syncing {
+            background: #fff3e0;
+            color: #ef6c00;
+        }
+
+        .sync-status.error {
+            background: #ffebee;
+            color: #c62828;
+        }
+
+        /* Date & Time Section */
+        .info-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .datetime {
+            text-align: center;
+            color: white;
+        }
+
+        .datetime-large {
+            font-size: 1.8em;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        #currentTime {
+            font-size: 1.3em;
+            opacity: 0.95;
+        }
+
+        /* Drag Hint */
+        .drag-hint {
+            background: #fff9c4;
+            border-left: 4px solid #fbc02d;
+            padding: 12px 15px;
+            margin-bottom: 25px;
+            border-radius: 8px;
+            font-size: 0.95em;
+            color: #555;
+        }
+
+        /* Add Category Section */
+        .add-category-section {
+            background: #f0f4ff;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+            border: 2px dashed #667eea;
+        }
+
+        .add-category-title {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+
+        .add-category-form {
+            display: flex;
+            gap: 10px;
+        }
+
+        .add-category-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #667eea;
+            border-radius: 8px;
+            font-size: 1em;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .add-category-input:focus {
+            border-color: #764ba2;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .add-category-btn {
+            padding: 12px 25px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .add-category-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .add-category-btn:active {
+            transform: translateY(0);
+        }
+
+        /* Add Item Section */
+        .add-item-section {
+            background: #f0fff4;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+            border: 2px dashed #48bb78;
+        }
+
+        .add-item-title {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #48bb78;
+            margin-bottom: 15px;
+        }
+
+        .add-item-form {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .add-item-input {
+            flex: 1;
+            min-width: 200px;
+            padding: 12px 15px;
+            border: 2px solid #48bb78;
+            border-radius: 8px;
+            font-size: 1em;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .add-item-input:focus {
+            border-color: #38a169;
+            box-shadow: 0 0 0 3px rgba(72, 187, 120, 0.1);
+        }
+
+        .add-item-select {
+            padding: 12px 15px;
+            border: 2px solid #48bb78;
+            border-radius: 8px;
+            font-size: 1em;
+            outline: none;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .add-item-select:focus {
+            border-color: #38a169;
+            box-shadow: 0 0 0 3px rgba(72, 187, 120, 0.1);
+        }
+
+        .add-item-btn {
+            padding: 12px 25px;
+            background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .add-item-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(72, 187, 120, 0.4);
+        }
+
+        .add-item-btn:active {
+            transform: translateY(0);
+        }
+
+        /* Search Section */
+        .search-section {
+            background: #fff5f5;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+            border: 2px dashed #fc8181;
+        }
+
+        .search-title {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #fc8181;
+            margin-bottom: 15px;
+        }
+
+        .search-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 12px 40px 12px 15px;
+            border: 2px solid #fc8181;
+            border-radius: 8px;
+            font-size: 1em;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .search-input:focus {
+            border-color: #f56565;
+            box-shadow: 0 0 0 3px rgba(252, 129, 129, 0.1);
+        }
+
+        .clear-search {
+            position: absolute;
+            right: 10px;
+            background: #fc8181;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            cursor: pointer;
+            font-size: 1em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .clear-search:hover {
+            background: #f56565;
+            transform: scale(1.1);
+        }
+
+        .search-results {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 0.95em;
+            display: none;
+        }
+
+        .search-results.active {
+            display: block;
+            background: #c6f6d5;
+            color: #22543d;
+        }
+
+        .search-results.no-results {
+            display: block;
+            background: #fed7d7;
+            color: #742a2a;
+        }
+
+        /* Section Styles */
+        .section {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .section.drag-over {
+            background: #e3f2fd;
+            border: 2px dashed #2196f3;
+            transform: scale(1.02);
+        }
+
+        .section.collapsed .checklist {
+            display: none;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            cursor: pointer;
+        }
+
+        .section-title-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex: 1;
+        }
+
+        .section h2 {
+            color: #333;
+            font-size: 1.8em;
+            margin: 0;
+        }
+
+        .section-title-input {
+            font-size: 1.8em;
+            font-weight: bold;
+            padding: 5px 10px;
+            border: 2px solid #667eea;
+            border-radius: 8px;
+            outline: none;
+            flex: 1;
+        }
+
+        .section-actions {
+            display: flex;
+            gap: 5px;
+        }
+
+        .section-edit-btn,
+        .section-delete-btn,
+        .section-save-btn,
+        .section-cancel-btn {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            transition: all 0.2s;
+        }
+
+        .section-edit-btn {
+            background: #ffd700;
+            color: #333;
+        }
+
+        .section-edit-btn:hover {
+            background: #ffed4e;
+            transform: scale(1.1);
+        }
+
+        .section-delete-btn {
+            background: #ff6b6b;
+            color: white;
+        }
+
+        .section-delete-btn:hover {
+            background: #ff5252;
+            transform: scale(1.1);
+        }
+
+        .section-save-btn {
+            background: #48bb78;
+            color: white;
+        }
+
+        .section-save-btn:hover {
+            background: #38a169;
+            transform: scale(1.1);
+        }
+
+        .section-cancel-btn {
+            background: #cbd5e0;
+            color: #333;
+        }
+
+        .section-cancel-btn:hover {
+            background: #a0aec0;
+            transform: scale(1.1);
+        }
+
+        .section-progress {
+            background: #667eea;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 1em;
+        }
+
+        .section-progress-bar {
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .section-progress-bar::after {
+            content: attr(data-progress);
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 0.75em;
+            color: #666;
+            font-weight: bold;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .section-progress-bar.has-progress::after {
+            opacity: 1;
+        }
+
+        .section-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            transition: width 0.5s ease;
+            border-radius: 10px;
+        }
+
+        .checklist {
+            list-style: none;
+        }
+
+        .checklist-item {
+            background: white;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            cursor: move;
+        }
+
+        .checklist-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+
+        .checklist-item.dragging {
+            opacity: 0.5;
+            transform: rotate(2deg);
+        }
+
+        .checklist-item.hidden {
+            display: none;
+        }
+
+        .checklist-item.highlight {
+            background: #fff9c4;
+            border: 2px solid #fbc02d;
+        }
+
+        .drag-handle {
+            color: #999;
+            cursor: grab;
+            font-size: 1.2em;
+            user-select: none;
+        }
+
+        .drag-handle:active {
+            cursor: grabbing;
+        }
+
+        .checklist-item input[type="checkbox"] {
+            width: 22px;
+            height: 22px;
+            cursor: pointer;
+            accent-color: #667eea;
+        }
+
+        .checklist-item label {
+            flex: 1;
+            cursor: pointer;
+            font-size: 1.1em;
+            color: #333;
+            transition: all 0.3s;
+        }
+
+        .checklist-item.checked label {
+            text-decoration: line-through;
+            color: #999;
+        }
+
+        .checklist-item.checked {
+            background: #f0f0f0;
+        }
+
+        /* Overall Progress */
+        .overall-progress {
+            height: 40px;
+            background: #e0e0e0;
+            border-radius: 20px;
+            overflow: hidden;
+            margin: 30px 0;
+            position: relative;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .overall-progress::after {
+            content: attr(data-progress);
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            font-weight: bold;
+            font-size: 1.1em;
+            color: #333;
+            z-index: 2;
+            text-shadow: 0 0 3px white;
+        }
+
+        .overall-progress.has-progress::after {
+            color: white;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #48bb78 0%, #38a169 100%);
+            transition: width 0.5s ease;
+            border-radius: 20px;
+        }
+
+        /* Buttons */
+        .button-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .collapse-btn,
+        .reset-btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .collapse-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .collapse-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .reset-btn {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+            color: white;
+        }
+
+        .reset-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(255, 107, 107, 0.4);
+        }
+
+        .collapse-btn:active,
+        .reset-btn:active {
+            transform: translateY(0);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            .add-category-form,
+            .add-item-form {
+                flex-direction: column;
+            }
+
+            .add-item-input,
+            .add-item-select {
+                min-width: 100%;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            .collapse-btn,
+            .reset-btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>✅ My Checklist</h1>
+    <div class="subtitle">Stay organized and track your progress!</div>
+    
     <!-- Sync Status -->
     <div class="sync-status" id="syncStatus">🔄 Syncing with GitHub...</div>
     
